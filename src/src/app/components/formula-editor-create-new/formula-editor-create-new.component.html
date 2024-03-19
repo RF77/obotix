@@ -1,0 +1,9 @@
+<h2>Neu erstellen</h2>
+
+<table>
+    <tr>
+        <td [width]="'90%'"><input style="width: 100%;" type="text" pInputText autofocus (keydown.enter)="createSolver()" [(ngModel)]="title" placeholder="GC Titel" /></td>
+        <td><p-button label="Erstellen" (onClick)="createSolver()" size="small"></p-button></td>
+    </tr>
+</table>
+

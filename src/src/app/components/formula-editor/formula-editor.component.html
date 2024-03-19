@@ -1,0 +1,54 @@
+<div>
+    <span class="title">Assistantix</span>
+    <span>{{gcTitle}}</span>
+</div>
+
+<div class="card">
+    <p-menubar [model]="menuItems" ></p-menubar>
+</div>
+
+<p-table appendTo="body" pFocusTrap [value]="model.configuration.rows" [tableStyle]="{ 'width': '100%' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th [width]="'50px'">Name</th>
+            <th [width]="'70%'">Formel/Werte</th>
+            <th [width]="'30%'">Resultat<p-dropdown class="result-combobox" [options]="allResultTypes" [(ngModel)]="model.configuration.selectedResultType"></p-dropdown></th>
+            <th [width]="'1%'" pTooltip="keine gleiche Werte">U</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+        <tr>
+            <td><input style="width: 100%;" type="text" pInputText [(ngModel)]="row.name" (blur)="calculateResult()"/></td>
+            <td>
+                <span class="no-break">
+                    <div class="monaco-div" [ngStyle]="{'height': getRowHeight(row), 'width':'100%'}">
+                        <!-- <input style="width: 100%;" type="text" pInputText [(ngModel)]="row.content" (blur)="calculateResult()" (keydown)="createNewRowFromEditor($event)"/> -->
+                        <ngx-monaco-editor [ngStyle]="{'height': '100%', 'width':'100%'}" [options]="editorOptions" [(ngModel)]="row.content" (focus)="row.hasFocus = true" (blur)="row.hasFocus = false;calculateResult()" (keydown)="createNewRowFromEditor($event)" appendTo="body"></ngx-monaco-editor>
+                    </div>
+                   <p-button [rounded]="true" [text]="true" class="delete-button" icon="pi pi-times" size="small"  (onClick)="deleteRow(row)" tabindex="-1" pFocusTrapDisabled="true"></p-button>
+                </span>
+            </td>
+            <td><app-formula-editor-result-table *ngIf="!isLastRow(row)" [model]="getResultFromRow(row, false)"></app-formula-editor-result-table>
+                <span *ngIf="isLastRow(row)">siehe unten</span></td>
+            <td><p-checkbox [(ngModel)]="row.unique" [binary]="true" inputId="binary"></p-checkbox></td>
+        </tr>
+    </ng-template>
+</p-table>
+<div *ngIf="error == null">
+ <h4>Resultat:</h4>
+<!-- <pre>{{model.configuration.rows[model.configuration.rows.length-1].result | json}}</pre> -->
+<app-formula-editor-result-table *ngIf="(model?.configuration?.rows?.length ?? 0) > 0" 
+    [model]="getResultFromRow(model.configuration.rows[model.configuration.rows.length-1], true)"
+    [full]="true" [saveToStorageInstance]="this" [resultModel]="model.result"></app-formula-editor-result-table>   
+</div>
+
+<div *ngIf="error">
+ <h4>Fehler:</h4>
+<!-- <pre>{{model.configuration.rows[model.configuration.rows.length-1].result | json}}</pre> -->
+<pre class="error-div">
+    {{error}}
+</pre> 
+</div>
+
+
+

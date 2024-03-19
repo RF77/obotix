@@ -1,0 +1,30 @@
+<span *ngIf="(model?.length ?? 0) === 1 && !full">{{model[0].result}}</span>
+<p-table *ngIf="(model?.length ?? 0) > 1 || (full && (model?.length ?? 0) > 0)" [value]="model" styleClass="p-datatable-striped">
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="no-padding" *ngFor="let variable of model[0].vars">
+                {{variable.name == ''?'Resultat':variable.name}}
+            </th>
+            <th class="no-padding" *ngIf="full">Status</th>
+            <th class="no-padding" *ngIf="full">Status setzen</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+        <tr>
+            <td class="no-padding" *ngFor="let variable of row.vars">
+                {{variable.value}}
+                <p-button *ngIf="full" [rounded]="true" [text]="true" class="copy-button" icon="pi pi-copy" size="small" ngxClipboard [cbContent]="variable.value"></p-button>
+            </td>
+            <td class="no-padding" *ngIf="full">
+                <i [class]="getResultIcon(row)"></i>
+                {{getResultText(row)}}
+            </td>
+            <td class="no-padding" *ngIf="full">
+                <span class="p-buttonset">
+                    <p-button pButton pRipple class="result-button"  icon="pi pi-check" size="small" (onClick)="setRowResult(row, true)"></p-button>
+                    <p-button pButton pRipple class="result-button"  icon="pi pi-times" size="small" (onClick)="setRowResult(row, false)"></p-button>
+                </span> 
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

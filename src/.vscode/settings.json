@@ -1,0 +1,8 @@
+{
+    "appService.deploySubpath": "dist\\assistantix\\browser",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/6151fd92-1c87-4b06-af72-f8378736e4cd/resourceGroups/Obotix/providers/Microsoft.Web/sites/obotix"
+}

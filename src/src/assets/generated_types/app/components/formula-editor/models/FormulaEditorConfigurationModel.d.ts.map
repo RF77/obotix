@@ -1,0 +1,1 @@
+{"version":3,"file":"FormulaEditorConfigurationModel.d.ts","sourceRoot":"","sources":["../../../../../../app/components/formula-editor/models/FormulaEditorConfigurationModel.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,6BAA6B,CAAC;AACzD,OAAO,EAAE,qBAAqB,EAAE,MAAM,yBAAyB,CAAC;AAGhE,qBAAa,+BAA+B;IACxC,IAAI,EAAE,qBAAqB,EAAE,CAA4C;IACzE,kBAAkB,EAAE,UAAU,CAAqB;CACtD"}
