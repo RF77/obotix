@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "deploy": "ng build --configuration production --aot",
+    "deployGithub": "ng build --configuration production --aot --base-href=https://rf77.github.io/obotix/",
     "test": "ng test",
     "build:types": "tsc -d --declarationDir src/assets/generated_types --declarationMap --emitDeclarationOnly"
   },
