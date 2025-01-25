@@ -4,7 +4,7 @@ import { FormulaEditorResultModel } from '../formula-editor/models/FormulaEditor
 import { ResultStatus } from './ResultStatus';
 import { from } from 'linq-to-typescript';
 import { SaveToStorage } from '../formula-editor/SaveToStorage';
-import { NgIf, NgFor } from '@angular/common';
+
 import { TableModule } from 'primeng/table';
 import { PrimeTemplate } from 'primeng/api';
 import { Button, ButtonDirective } from 'primeng/button';
@@ -14,7 +14,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     selector: 'app-formula-editor-result-table',
     templateUrl: './formula-editor-result-table.component.html',
     styleUrl: './formula-editor-result-table.component.sass',
-    imports: [NgIf, TableModule, PrimeTemplate, NgFor, Button, ClipboardModule, ButtonDirective]
+    imports: [TableModule, PrimeTemplate, Button, ClipboardModule, ButtonDirective]
 })
 export class FormulaEditorResultTableComponent {
 
