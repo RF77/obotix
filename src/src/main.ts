@@ -17,7 +17,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor-v2';
 import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 const monacoConfig: NgxMonacoEditorConfig = {
 
   onMonacoLoad: async () => {
@@ -69,7 +71,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     toSwissGrid(): string;
     toString(): string;
 }
-    
+
     declare class Coordinate {
     /**
      * Peilt von den Ursprungskoordinaten in die angebene Richtung
@@ -227,7 +229,7 @@ declare class GcService {
     replaceVars(): string;
     replaceBrackets(): string;
     when(value: any, b: (v: any) => Boolean): any[];
-  
+
     /**
    * Parst den string zu einer Koordinate und macht eine Peilung von einer Koordinate aus mit einer Distanz und dem Azimuth
    * @param distance Distanz in Meter
@@ -272,13 +274,17 @@ declare class GcService {
 };
 const monaco = (<any>window).monaco;
 
-
-
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, TableModule, InputTextModule, FormsModule, AutoCompleteModule, ButtonModule, MenubarModule, ClipboardModule, FocusTrapModule, CheckboxModule, DropdownModule, MonacoEditorModule.forRoot(monacoConfig)),
-        provideAnimations()
-    ]
+  providers: [
+    importProvidersFrom(BrowserModule, AppRoutingModule, TableModule, InputTextModule, FormsModule, AutoCompleteModule, ButtonModule, MenubarModule, ClipboardModule, FocusTrapModule, CheckboxModule, DropdownModule, MonacoEditorModule.forRoot(monacoConfig)),
+    provideAnimations(),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    })
+  ]
 })
   .catch(err => console.error(err));
 
