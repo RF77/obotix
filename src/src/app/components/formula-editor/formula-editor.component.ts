@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormulaEditorRowModel } from './models/FormulaEditorRowModel';
 import { FormulaEditorModel } from './models/FormulaEditorModel';
 import { CalculateResultService } from './services/calculate-result.service';
@@ -25,6 +25,11 @@ import { Checkbox } from 'primeng/checkbox';
     imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent, Checkbox]
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
+  private calculateResultService = inject(CalculateResultService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private gcService = inject(GcService);
+
 
 
   configKey = "assistantix_config";
@@ -53,10 +58,6 @@ export class FormulaEditorComponent implements OnInit, SaveToStorage {
     },
     fixedOverflowWidgets: true
   };
-
-  constructor(private calculateResultService: CalculateResultService, private activatedRoute: ActivatedRoute, private router: Router, private gcService: GcService) {
-
-  }
 
   getRowHeight(row: FormulaEditorRowModel) {
     return '30px';

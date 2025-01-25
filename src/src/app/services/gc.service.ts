@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BuchstabenwortwertConverterService } from '../converter/buchstabenwortwert-converter.service';
 import FormulaEditorVarValue from '../components/formula-editor/models/FormulaEditorVarValue';
 import { CalcContent } from '../components/formula-editor/services/CalcContent';
@@ -15,13 +15,15 @@ import { CoordinateService } from './coordinate.service';
   providedIn: 'root'
 })
 export class GcService {
+  private bwwService = inject(BuchstabenwortwertConverterService);
+  private coordinateConverterService = inject(CoordinateConverterService);
+  private trigonometryService = inject(TrigonometryService);
+  coordinateService = inject(CoordinateService);
+
 
   public static instance: GcService;
 
-  constructor(private bwwService: BuchstabenwortwertConverterService,
-    private coordinateConverterService: CoordinateConverterService,
-    private trigonometryService: TrigonometryService,
-    public coordinateService: CoordinateService) {
+  constructor() {
     GcService.instance = this;
   }
 

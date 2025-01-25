@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FormulaEditorModel } from '../models/FormulaEditorModel';
 import FormulaEditorVarValue from '../models/FormulaEditorVarValue';
 import { FormulaEditorRowResult } from '../models/FormulaEditorRowResult';
@@ -104,8 +104,10 @@ declare global {
   providedIn: 'root'
 })
 export class CalculateResultService implements CalcContent {
+  private gcService = inject(GcService);
 
-  constructor(private gcService: GcService) {
+
+  constructor() {
     this.gcService.calcInterface = this;
   }
 

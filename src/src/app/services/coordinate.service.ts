@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Point, bearingToAzimuth, destination, rhumbDestination } from '@turf/turf';
 import * as geolib from 'geolib';
 import { GcCoordinate } from '../converter/GcCoordinate';
@@ -11,8 +11,8 @@ import { CoordinateConverterService } from '../converter/coordinate-converter.se
   providedIn: 'root'
 })
 export class CoordinateService {
+  private converterService = inject(CoordinateConverterService);
 
-  constructor(private converterService: CoordinateConverterService) { }
 
   public distanceTo(source: GcCoordinate | string, target: GcCoordinate | string): number {
     console.debug("distance1()", source, target);

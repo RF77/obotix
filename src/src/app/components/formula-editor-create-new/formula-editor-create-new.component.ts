@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
@@ -11,11 +11,9 @@ import { Button } from 'primeng/button';
     imports: [FormsModule, InputText, Button]
 })
 export class FormulaEditorCreateNewComponent {
+  private router = inject(Router);
+
   title = "";
-
-  constructor(private router: Router) {
-
-  }
 
   createSolver() {
     this.router.navigate(['solver', this.title]);
