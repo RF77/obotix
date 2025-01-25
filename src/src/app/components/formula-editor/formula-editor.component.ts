@@ -19,10 +19,10 @@ import { FormulaEditorResultTableComponent } from '../formula-editor-result-tabl
 import { Checkbox } from 'primeng/checkbox';
 
 @Component({
-    selector: 'app-formula-editor',
-    templateUrl: './formula-editor.component.html',
-    styleUrl: './formula-editor.component.sass',
-    imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent, Checkbox]
+  selector: 'app-formula-editor',
+  templateUrl: './formula-editor.component.html',
+  styleUrl: './formula-editor.component.sass',
+  imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent, Checkbox]
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
   private calculateResultService = inject(CalculateResultService);
@@ -43,7 +43,7 @@ export class FormulaEditorComponent implements OnInit, SaveToStorage {
   public allResultTypes = [ResultType.Normal, ResultType.OneRow];
 
   editorOptions = {
-    theme: 'vs-light',
+    theme: 'vs-dark',
     renderLineHighlight: "none",
     language: 'javascript',
     lineDecorationsWidth: 0,
