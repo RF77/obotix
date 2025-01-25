@@ -8,9 +8,10 @@ import { SaveToStorage } from './SaveToStorage';
 import { GcService } from '../../services/gc.service';
 
 @Component({
-  selector: 'app-formula-editor',
-  templateUrl: './formula-editor.component.html',
-  styleUrl: './formula-editor.component.sass'
+    selector: 'app-formula-editor',
+    templateUrl: './formula-editor.component.html',
+    styleUrl: './formula-editor.component.sass',
+    standalone: false
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
 

@@ -6,9 +6,10 @@ import { from } from 'linq-to-typescript';
 import { SaveToStorage } from '../formula-editor/SaveToStorage';
 
 @Component({
-  selector: 'app-formula-editor-result-table',
-  templateUrl: './formula-editor-result-table.component.html',
-  styleUrl: './formula-editor-result-table.component.sass'
+    selector: 'app-formula-editor-result-table',
+    templateUrl: './formula-editor-result-table.component.html',
+    styleUrl: './formula-editor-result-table.component.sass',
+    standalone: false
 })
 export class FormulaEditorResultTableComponent {
 
