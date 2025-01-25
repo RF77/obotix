@@ -1,19 +1,19 @@
-@if ((model?.length ?? 0) === 1 && !full) {
-  <span>{{model[0].result}}</span>
+@if ((model()?.length ?? 0) === 1 && !full()) {
+  <span>{{model()[0].result}}</span>
 }
-@if ((model?.length ?? 0) > 1 || (full && (model?.length ?? 0) > 0)) {
-  <p-table [value]="model" styleClass="p-datatable-striped">
+@if ((model()?.length ?? 0) > 1 || (full() && (model()?.length ?? 0) > 0)) {
+  <p-table [value]="model()" styleClass="p-datatable-striped">
     <ng-template pTemplate="header">
       <tr>
-        @for (variable of model[0].vars; track variable) {
+        @for (variable of model()[0].vars; track variable) {
           <th class="no-padding">
             {{variable.name == ''?'Resultat':variable.name}}
           </th>
         }
-        @if (full) {
+        @if (full()) {
           <th class="no-padding">Status</th>
         }
-        @if (full) {
+        @if (full()) {
           <th class="no-padding">Status setzen</th>
         }
       </tr>
@@ -23,18 +23,18 @@
         @for (variable of row.vars; track variable) {
           <td class="no-padding">
             {{variable.value}}
-            @if (full) {
+            @if (full()) {
               <p-button [rounded]="true" [text]="true" class="copy-button" icon="pi pi-copy" size="small" ngxClipboard [cbContent]="variable.value"></p-button>
             }
           </td>
         }
-        @if (full) {
+        @if (full()) {
           <td class="no-padding">
             <i [class]="getResultIcon(row)"></i>
             {{getResultText(row)}}
           </td>
         }
-        @if (full) {
+        @if (full()) {
           <td class="no-padding">
             <span class="p-buttonset">
               <p-button pButton pRipple class="result-button"  icon="pi pi-check" size="small" (onClick)="setRowResult(row, true)"></p-button>

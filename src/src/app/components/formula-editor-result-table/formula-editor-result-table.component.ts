@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormulaEditorRowResult } from '../formula-editor/models/FormulaEditorRowResult';
 import { FormulaEditorResultModel } from '../formula-editor/models/FormulaEditorResultModel';
 import { ResultStatus } from './ResultStatus';
@@ -18,10 +18,10 @@ import { ClipboardModule } from 'ngx-clipboard';
 })
 export class FormulaEditorResultTableComponent {
 
-  @Input() public model: FormulaEditorRowResult[] = [];
-  @Input() public resultModel: FormulaEditorResultModel | undefined;
-  @Input() public full = false;
-  @Input() public saveToStorageInstance: SaveToStorage | undefined;
+  public readonly model = input<FormulaEditorRowResult[]>([]);
+  public readonly resultModel = input<FormulaEditorResultModel>();
+  public readonly full = input(false);
+  public readonly saveToStorageInstance = input<SaveToStorage>();
 
   getResultIcon(row: FormulaEditorRowResult) {
     switch (this.getResultStatus(row)) {
@@ -46,10 +46,11 @@ export class FormulaEditorResultTableComponent {
   }
 
   getResultStatus(row: FormulaEditorRowResult) {
-    if (this.resultModel && this.resultModel.wrongResults.has(row.result)) {
+    const resultModel = this.resultModel();
+    if (resultModel && resultModel.wrongResults.has(row.result)) {
       return ResultStatus.Wrong;
     }
-    if (this.resultModel && this.resultModel.rightResult == row.result) {
+    if (resultModel && resultModel.rightResult == row.result) {
       return ResultStatus.Right;
     }
 
@@ -57,16 +58,17 @@ export class FormulaEditorResultTableComponent {
   }
 
   setRowResult(row: FormulaEditorRowResult, isRight: boolean) {
-    if (this.resultModel) {
+    const resultModel = this.resultModel();
+    if (resultModel) {
       if (isRight) {
-        this.resultModel.rightResult = row.result;
-        this.resultModel.wrongResults.delete(row.result);
+        resultModel.rightResult = row.result;
+        resultModel.wrongResults.delete(row.result);
         console.warn("setRowResult() row set to right");
       } else {
-        if (this.resultModel.rightResult == row.result) {
-          this.resultModel.rightResult = undefined;
+        if (resultModel.rightResult == row.result) {
+          resultModel.rightResult = undefined;
         }
-        this.resultModel.wrongResults.add(row.result);
+        resultModel.wrongResults.add(row.result);
         console.warn("setRowResult() row set to false");
       }
       this.saveToStorage();
@@ -76,8 +78,9 @@ export class FormulaEditorResultTableComponent {
   }
 
   saveToStorage() {
-    if (this.saveToStorageInstance) {
-      this.saveToStorageInstance.saveToStorage();
+    const saveToStorageInstance = this.saveToStorageInstance();
+    if (saveToStorageInstance) {
+      saveToStorageInstance.saveToStorage();
     }
   }
 }
