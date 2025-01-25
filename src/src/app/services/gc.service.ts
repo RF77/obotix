@@ -31,8 +31,8 @@ export class GcService {
    * Wird vom Solver gesetzt und enthält die aktuellen Variablenwerte
    * Soweit nicht angedacht, um im Solver von Hand zu benutzen
    */
-  public vars: FormulaEditorVarValue[] = []
-  public calcInterface: CalcContent | undefined;
+  public vars = new Map<string, any>();
+  // public calcInterface: CalcContent | undefined;
 
   /**
    * Berechne die Buchstabenwerte eines Textes, A=1, Z=26, Ä=27...
@@ -68,17 +68,19 @@ export class GcService {
    */
   public replaceBrackets(text: string): string {
     const newText = text.replaceAll('(', '${').replaceAll(')', '}');
-    return this.calcInterface?.calcContent(this.vars, `${'`'}${newText}${'`'}`);
+    //TODO
+    return text;
+    // return this.calcInterface?.calcContent(this.vars, `${'`'}${newText}${'`'}`);
   }
 
   /**
-   * 
+   *
    * @param value Die Werte können in vielen Varianten übergeben werden. Jenachdem ist das Resultat unterschiedlich
    * Array von Zahlen: [1,2,3] => 6
    * string als Text: "ABC" => 6 (es wird BWW gebildet und von diesem die Summe zusammengezählt)
    * Nummer: 49 => 4 (es wird die iterierte QS der Zahl gebildet)
    * Array in Array => Subarrays werden zusammengezählt
-   * @returns 
+   * @returns
    */
   public sum(value: any): number {
     if (value == null) {
@@ -196,14 +198,14 @@ export class GcService {
   /**
    * Parst eine Koordinate von verschiedenen Notationen
    * @param coordinate die zu parsende Koordinate
-   * @returns 
+   * @returns
    */
   public parseCoordinate(coordinate: string): GcCoordinate {
     return this.coordinateConverterService.parse(coordinate);
   }
 
   /**
-   * Konvertiert die Basis einer Zahl von einem gewissen Basissystem in ein anderes Basissystem 
+   * Konvertiert die Basis einer Zahl von einem gewissen Basissystem in ein anderes Basissystem
    * @param input Die Asugangszahl entweder als array von Werten oder einem einzelnen Wert
    * @param from Die Ausgangsbasis von 2 bis 36
    * @param to Die Zielbasis von 2 bis 36

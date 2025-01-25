@@ -1,4 +1,3 @@
-import FormulaEditorVarValue from '../models/FormulaEditorVarValue';
 
 // String.prototype.bww = function () { return "Hallo"; };
 // Array.prototype.xy = function (o) {
@@ -6,5 +5,5 @@ import FormulaEditorVarValue from '../models/FormulaEditorVarValue';
 //   return this;
 // }
 export interface CalcContent {
-    calcContent(vars: FormulaEditorVarValue[], content?: string): any;
+  // calcContent(vars: Map<string, any>, content?: string): any;
 }

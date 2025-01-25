@@ -8,6 +8,7 @@ import { GcService } from '../../../services/gc.service';
 import { CalcContent } from './CalcContent';
 import { Coordinate } from '../../../extensions/Coord';
 import { GcCoordinate } from '../../../converter/GcCoordinate';
+import { from } from 'linq-to-typescript';
 
 String.prototype.bww = function () { return GcService.instance.bww(this.valueOf()); };
 String.prototype.bwwZtoA = function () { return GcService.instance.bwwZtoA(this.valueOf()); };
@@ -45,6 +46,33 @@ Number.prototype.when = function (b) { return GcService.instance.when(this.value
 Number.prototype.round = function (decimals) { return GcService.instance.round(this.valueOf(), decimals); };
 
 const indirectEval = (code: string) => (0, eval)(code);
+const placeholder = '__placeholder__';
+
+const evalTest = `(() =>{
+    let a_arr = (() => {
+      return [1, 3];
+    })();
+    const is_a_array = Array.isArray(a_arr);
+    a_arr = is_a_array ? a_arr : [a_arr];
+    a_arr.forEach((a) => {
+      vars.set('a', a);
+      let b_arr = a + 4;
+      const is_b_array = Array.isArray(b_arr);
+      b_arr = is_b_array ? b_arr : [b_arr];
+      b_arr.forEach((b) => {
+        vars.set('b', b);
+        let c_arr = [4 - a, 5 + b];
+        const is_c_array = Array.isArray(c_arr);
+        c_arr = is_c_array ? c_arr : [c_arr];
+        c_arr.forEach((c) => {
+          vars.set('c', c);
+          result.push(new FormulaEditorRowResult(from(vars.keys()).select(i => new FormulaEditorVarValue(i, vars.get(i))).toArray(), c));
+        });
+      });
+    });
+
+    return result;})()`;
+
 
 declare global {
   interface String {
@@ -110,16 +138,28 @@ export class CalculateResultService implements CalcContent {
 
 
   constructor() {
-    this.gcService.calcInterface = this;
+    // this.gcService.calcInterface = this;
   }
 
   calculateResult(model: FormulaEditorModel): string | null {
     // let currentResult: FormulaEditorRowResult[] = [];
     let error: string | null = null;
+    model.result.result = [];
+
+    // model.result.result = this.beispiel(model);
+    const vars = new Map<string, any>();
+    const internalResult: FormulaEditorRowResult[] = [];
+    const gc = this.gcService;
+    gc.vars = vars;
+    const evalText = this.getEvalText(model)
+    model.result.result = eval(evalText);
+
+    return error;
 
     model.configuration.rows.forEach(row => {
       try {
-        model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue(row?.name ?? "", row.content)], row.content));
+        // model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue("1", "2")], "3"));
+        model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue(row?.name ?? "", eval(row.content ?? ""))], eval(row.content ?? "")));
         // if (error) {
         //   return;
         // }
@@ -146,35 +186,89 @@ export class CalculateResultService implements CalcContent {
     return error;
   }
 
-  // private setRowResult(result: any, row: FormulaEditorRowModel, currentVars: FormulaEditorVarValue[], level: number) {
-  //   if (Array.isArray(result) && level == 0) {
-  //     const newLevel = level + 1;
-  //     (result as any[]).forEach(i => this.setRowResult(i, row, currentVars, newLevel));
-  //   } else {
-  //     const newResult = { result: result, vars: [...currentVars, { name: row.name, value: result } as FormulaEditorVarValue] } as FormulaEditorRowResult
-  //     row.result.push(newResult);
+  beispiel(model: FormulaEditorModel) {
+
+    const result: FormulaEditorRowResult[] = [];
+    const vars = new Map<string, any>();
+
+    let a_arr: any = (() => {
+      return [1, 3];
+    })();
+    const is_a_array = Array.isArray(a_arr);
+    a_arr = is_a_array ? a_arr : [a_arr];
+    a_arr.forEach((a: any) => {
+      vars.set('a', a);
+      let b_arr: any = a + 4;
+      const is_b_array = Array.isArray(b_arr);
+      b_arr = is_b_array ? b_arr : [b_arr];
+      b_arr.forEach((b: any) => {
+        vars.set('b', b);
+        let c_arr: any = [4 - a, 5 + b];
+        const is_c_array = Array.isArray(c_arr);
+        c_arr = is_c_array ? c_arr : [c_arr];
+        c_arr.forEach((c: any) => {
+          vars.set('c', c);
+          result.push(new FormulaEditorRowResult(from(vars.keys()).select(i => new FormulaEditorVarValue(i, vars.get(i))).toArray(), c));
+        });
+      });
+    });
+
+    return result;
+  }
+
+  getEvalText(model: FormulaEditorModel) {
+    let result = `(() =>{
+    ${placeholder}
+    return internalResult;})()`;
+    model.configuration.rows.filter(i => i.name && i.content).forEach((val, index, arr) => {
+      const isLast = index + 1 === arr.length;
+      result = result.replace(placeholder, this.getTextForVal(val));
+      if (isLast) {
+        result = result.replace(placeholder, this.getTextForLastVal(val));
+      }
+    });
+    return result;
+  }
+
+  getTextForLastVal(val: FormulaEditorRowModel) {
+    return `internalResult.push(new FormulaEditorRowResult(from(vars.keys()).select(i => new FormulaEditorVarValue(i, vars.get(i))).toArray(), vars.get('${val.name}')));`;
+  }
+
+  getTextForVal(val: FormulaEditorRowModel) {
+    const content = val.content;
+    const name = val.name;
+    const isBlock = content![0] === '{';
+    const calcBlock = isBlock ? `(() => ${content})()` : content;
+
+    return `let ${name}_arr = ${calcBlock};
+    const is_${name}_array = Array.isArray(${name}_arr);
+    ${name}_arr = is_${name}_array ? ${name}_arr : [${name}_arr];
+    ${name}_arr.forEach(${name} => {
+      vars.set('${name}', ${name});
+      ${placeholder}
+      });`;
+  }
+
+  // public calcContent(vars: Map<string, any>, content?: string): any {
+  //   const gc = this.gcService;
+  //   gc.vars = vars;
+  //   //TODO rep
+  //   const allVars = _.mapValues(_.keyBy(vars, 'name'), 'value');
+  //   if (content && content.length > 2 && content[0] == "'" && content[content.length - 1] == "'") {
+  //     // replace string e.g. 'N47 15.abc E8 10.def'
+  //     content = content.replaceAll("'", "");
+  //     return gc.replaceVars(content);
+  //   }
+  //   const evalContent = `${this.getEvalVars(vars)}
+
+  //      ${content ?? "undefined"}`;
+  //   try {
+  //     return indirectEval(evalContent);
+  //   } catch (e) {
+  //     console.warn(`eval of "${evalContent}"`, vars, e);
+  //     throw e;
   //   }
   // }
-
-  public calcContent(vars: FormulaEditorVarValue[], content?: string): any {
-    const gc = this.gcService;
-    gc.vars = vars;
-    const allVars = _.mapValues(_.keyBy(vars, 'name'), 'value');
-    if (content && content.length > 2 && content[0] == "'" && content[content.length - 1] == "'") {
-      // replace string e.g. 'N47 15.abc E8 10.def'
-      content = content.replaceAll("'", "");
-      return gc.replaceVars(content);
-    }
-    const evalContent = `${this.getEvalVars(vars)}
-
-       ${content ?? "undefined"}`;
-    try {
-      return indirectEval(evalContent);
-    } catch (e) {
-      console.warn(`eval of "${evalContent}"`, vars, e);
-      throw e;
-    }
-  }
 
   private getEvalVars(vars: FormulaEditorVarValue[]) {
     return vars.map(i => `var ${i.name}=allVars['${i.name}'];
