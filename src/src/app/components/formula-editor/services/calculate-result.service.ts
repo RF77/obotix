@@ -44,6 +44,8 @@ Number.prototype.pad = function (size: number) { return GcService.instance.pad(t
 Number.prototype.when = function (b) { return GcService.instance.when(this.valueOf(), b); };
 Number.prototype.round = function (decimals) { return GcService.instance.round(this.valueOf(), decimals); };
 
+const indirectEval = (code: string) => (0, eval)(code);
+
 declare global {
   interface String {
     bww(): number[];
@@ -112,27 +114,28 @@ export class CalculateResultService implements CalcContent {
   }
 
   calculateResult(model: FormulaEditorModel): string | null {
-    let currentResult: FormulaEditorRowResult[] = [];
+    // let currentResult: FormulaEditorRowResult[] = [];
     let error: string | null = null;
 
     model.configuration.rows.forEach(row => {
       try {
-        if (error) {
-          return;
-        }
-        row.result = [];
-        if (currentResult.length === 0) {
-          const result = this.calcContent([], row.content);
-          // console.info("Result is ", result);
-          this.setRowResult(result, row, [], 0);
-        } else {
-          currentResult.forEach(res => {
-            const result = this.calcContent(res.vars, row.content);
-            this.setRowResult(result, row, res.vars, 0);
-          });
-        }
-        currentResult = row.result;
-        // console.debug("current result", currentResult);
+        model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue(row?.name ?? "", row.content)], row.content));
+        // if (error) {
+        //   return;
+        // }
+        // row.result = [];
+        // if (currentResult.length === 0) {
+        //   const result = this.calcContent([], row.content);
+        //   // console.info("Result is ", result);
+        //   this.setRowResult(result, row, [], 0);
+        // } else {
+        //   currentResult.forEach(res => {
+        //     const result = this.calcContent(res.vars, row.content);
+        //     this.setRowResult(result, row, res.vars, 0);
+        //   });
+        // }
+        // currentResult = row.result;
+        // // console.debug("current result", currentResult);
       } catch (e) {
         let message = 'Unknown Error'
         if (e instanceof Error) message = e.message;
@@ -143,15 +146,15 @@ export class CalculateResultService implements CalcContent {
     return error;
   }
 
-  private setRowResult(result: any, row: FormulaEditorRowModel, currentVars: FormulaEditorVarValue[], level: number) {
-    if (Array.isArray(result) && level == 0) {
-      const newLevel = level + 1;
-      (result as any[]).forEach(i => this.setRowResult(i, row, currentVars, newLevel));
-    } else {
-      const newResult = { result: result, vars: [...currentVars, { name: row.name, value: result } as FormulaEditorVarValue] } as FormulaEditorRowResult
-      row.result.push(newResult);
-    }
-  }
+  // private setRowResult(result: any, row: FormulaEditorRowModel, currentVars: FormulaEditorVarValue[], level: number) {
+  //   if (Array.isArray(result) && level == 0) {
+  //     const newLevel = level + 1;
+  //     (result as any[]).forEach(i => this.setRowResult(i, row, currentVars, newLevel));
+  //   } else {
+  //     const newResult = { result: result, vars: [...currentVars, { name: row.name, value: result } as FormulaEditorVarValue] } as FormulaEditorRowResult
+  //     row.result.push(newResult);
+  //   }
+  // }
 
   public calcContent(vars: FormulaEditorVarValue[], content?: string): any {
     const gc = this.gcService;
@@ -163,10 +166,10 @@ export class CalculateResultService implements CalcContent {
       return gc.replaceVars(content);
     }
     const evalContent = `${this.getEvalVars(vars)}
-      
+
        ${content ?? "undefined"}`;
     try {
-      return eval(evalContent);
+      return indirectEval(evalContent);
     } catch (e) {
       console.warn(`eval of "${evalContent}"`, vars, e);
       throw e;
@@ -177,5 +180,6 @@ export class CalculateResultService implements CalcContent {
     return vars.map(i => `var ${i.name}=allVars['${i.name}'];
     `).join("");
   }
+
 
 }

@@ -12,8 +12,8 @@
     <tr>
       <th [width]="'50px'">Name</th>
       <th [width]="'70%'">Formel/Werte</th>
-      <th [width]="'30%'">Resultat<p-dropdown class="result-combobox" [options]="allResultTypes" [(ngModel)]="model.configuration.selectedResultType"></p-dropdown></th>
-      <th [width]="'1%'" pTooltip="keine gleiche Werte">U</th>
+      <!-- <th [width]="'30%'">Resultat<p-dropdown class="result-combobox" [options]="allResultTypes" [(ngModel)]="model.configuration.selectedResultType"></p-dropdown></th>
+      <th [width]="'1%'" pTooltip="keine gleiche Werte">U</th> -->
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-row>
@@ -28,13 +28,13 @@
           <p-button [rounded]="true" [text]="true" class="delete-button" icon="pi pi-times" size="small"  (onClick)="deleteRow(row)" tabindex="-1" pFocusTrapDisabled="true"></p-button>
         </span>
       </td>
-      <td>@if (!isLastRow(row)) {
+      <!-- <td>@if (!isLastRow(row)) {
         <app-formula-editor-result-table [model]="getResultFromRow(row, false)"></app-formula-editor-result-table>
       }
       @if (isLastRow(row)) {
         <span>siehe unten</span>
       }</td>
-      <td><p-checkbox [(ngModel)]="row.unique" [binary]="true" inputId="binary"></p-checkbox></td>
+      <td><p-checkbox [(ngModel)]="row.unique" [binary]="true" inputId="binary"></p-checkbox></td> -->
     </tr>
   </ng-template>
 </p-table>
@@ -42,10 +42,8 @@
   <div>
     <h4>Resultat:</h4>
     <!-- <pre>{{model.configuration.rows[model.configuration.rows.length-1].result | json}}</pre> -->
-    @if ((model?.configuration?.rows?.length ?? 0) > 0) {
-      <app-formula-editor-result-table
-        [model]="getResultFromRow(model.configuration.rows[model.configuration.rows.length-1], true)"
-      [full]="true" [saveToStorageInstance]="this" [resultModel]="model.result"></app-formula-editor-result-table>
+    @if ((model.configuration.rows.length) > 0) {
+      <app-formula-editor-result-table  [model]="model.result.result" [full]="true" [saveToStorageInstance]="this" [resultModel]="model.result"></app-formula-editor-result-table>
     }
   </div>
 }

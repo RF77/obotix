@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { FormulaEditorRowResult } from '../formula-editor/models/FormulaEditorRowResult';
 import { FormulaEditorResultModel } from '../formula-editor/models/FormulaEditorResultModel';
 import { ResultStatus } from './ResultStatus';
-import { from } from 'linq-to-typescript';
 import { SaveToStorage } from '../formula-editor/SaveToStorage';
 
 import { TableModule } from 'primeng/table';
@@ -11,17 +10,17 @@ import { Button, ButtonDirective } from 'primeng/button';
 import { ClipboardModule } from 'ngx-clipboard';
 
 @Component({
-    selector: 'app-formula-editor-result-table',
-    templateUrl: './formula-editor-result-table.component.html',
-    styleUrl: './formula-editor-result-table.component.sass',
-    imports: [TableModule, PrimeTemplate, Button, ClipboardModule, ButtonDirective]
+  selector: 'app-formula-editor-result-table',
+  templateUrl: './formula-editor-result-table.component.html',
+  styleUrl: './formula-editor-result-table.component.sass',
+  imports: [TableModule, PrimeTemplate, Button, ClipboardModule, ButtonDirective]
 })
 export class FormulaEditorResultTableComponent {
 
-  public readonly model = input<FormulaEditorRowResult[]>([]);
-  public readonly resultModel = input<FormulaEditorResultModel>();
+  public readonly model = input<FormulaEditorRowResult[] | undefined>([]);
+  public readonly resultModel = input<FormulaEditorResultModel>(new FormulaEditorResultModel());
   public readonly full = input(false);
-  public readonly saveToStorageInstance = input<SaveToStorage>();
+  public readonly saveToStorageInstance = input<SaveToStorage>(this);
 
   getResultIcon(row: FormulaEditorRowResult) {
     switch (this.getResultStatus(row)) {

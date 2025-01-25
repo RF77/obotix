@@ -1,11 +1,11 @@
-@if ((model()?.length ?? 0) === 1 && !full()) {
-  <span>{{model()[0].result}}</span>
+@if ((model()?.length) === 1 && !full()) {
+  <span>{{model()![0].result}}</span>
 }
 @if ((model()?.length ?? 0) > 1 || (full() && (model()?.length ?? 0) > 0)) {
-  <p-table [value]="model()" styleClass="p-datatable-striped">
+  <p-table [value]="model() ?? []" styleClass="p-datatable-striped">
     <ng-template pTemplate="header">
       <tr>
-        @for (variable of model()[0].vars; track variable) {
+        @for (variable of model()![0].vars; track variable) {
           <th class="no-padding">
             {{variable.name == ''?'Resultat':variable.name}}
           </th>

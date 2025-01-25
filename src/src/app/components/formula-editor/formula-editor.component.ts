@@ -15,22 +15,19 @@ import { InputText } from 'primeng/inputtext';
 import { NgStyle } from '@angular/common';
 import { EditorComponent } from 'ngx-monaco-editor-v2';
 import { Button } from 'primeng/button';
-import { FormulaEditorResultTableComponent } from '../formula-editor-result-table/formula-editor-result-table.component';
-import { Checkbox } from 'primeng/checkbox';
+import { FormulaEditorResultTableComponent } from "../formula-editor-result-table/formula-editor-result-table.component";
 
 @Component({
   selector: 'app-formula-editor',
   templateUrl: './formula-editor.component.html',
   styleUrl: './formula-editor.component.sass',
-  imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent, Checkbox]
+  imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent]
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
   private calculateResultService = inject(CalculateResultService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private gcService = inject(GcService);
-
-
 
   configKey = "assistantix_config";
   model: FormulaEditorModel = new FormulaEditorModel();
@@ -149,16 +146,16 @@ export class FormulaEditorComponent implements OnInit, SaveToStorage {
 
   }
 
-  getResultFromRow(row: FormulaEditorRowModel, full: boolean) {
-    if (!full && this.model.configuration.selectedResultType === ResultType.OneRow) {
-      return [row.result?.at(0)].filter(i => i != null);
-    }
-    if (row.unique) {
-      return this.gcService.distinctBy(row.result, "result");
-    } else {
-      return row.result;
-    }
-  }
+  // getResultFromRow(row: FormulaEditorRowModel, full: boolean) {
+  //   if (!full && this.model.configuration.selectedResultType === ResultType.OneRow) {
+  //     return [row.result?.at(0)].filter(i => i != null);
+  //   }
+  //   if (row.unique) {
+  //     return this.gcService.distinctBy(row.result, "result");
+  //   } else {
+  //     return row.result;
+  //   }
+  // }
 
   isLastRow(row: FormulaEditorRowModel) {
     return this.model.configuration.rows.indexOf(row) == this.model.configuration.rows.length - 1;
