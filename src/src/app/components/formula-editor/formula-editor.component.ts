@@ -3,15 +3,26 @@ import { FormulaEditorRowModel } from './models/FormulaEditorRowModel';
 import { FormulaEditorModel } from './models/FormulaEditorModel';
 import { CalculateResultService } from './services/calculate-result.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuItem, PrimeIcons } from 'primeng/api';
+import { MenuItem, PrimeIcons, PrimeTemplate } from 'primeng/api';
 import { SaveToStorage } from './SaveToStorage';
 import { GcService } from '../../services/gc.service';
+import { Menubar } from 'primeng/menubar';
+import { TableModule } from 'primeng/table';
+import { FocusTrap } from 'primeng/focustrap';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { InputText } from 'primeng/inputtext';
+import { NgStyle, NgIf } from '@angular/common';
+import { EditorComponent } from 'ngx-monaco-editor-v2';
+import { Button } from 'primeng/button';
+import { FormulaEditorResultTableComponent } from '../formula-editor-result-table/formula-editor-result-table.component';
+import { Checkbox } from 'primeng/checkbox';
 
 @Component({
     selector: 'app-formula-editor',
     templateUrl: './formula-editor.component.html',
     styleUrl: './formula-editor.component.sass',
-    standalone: false
+    imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, NgIf, FormulaEditorResultTableComponent, Checkbox]
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
 

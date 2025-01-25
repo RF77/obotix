@@ -274,30 +274,28 @@ declare class GcService {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainViewComponent,
-    FormulaEditorComponent,
-    FormulaEditorResultTableComponent,
-    FormulaEditorCreateNewComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    TableModule,
-    InputTextModule,
-    FormsModule,
-    AutoCompleteModule,
-    BrowserAnimationsModule,
-    ButtonModule,
-    MenubarModule,
-    ClipboardModule,
-    FocusTrapModule,
-    CheckboxModule,
-    DropdownModule,
-    MonacoEditorModule.forRoot(monacoConfig)
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        TableModule,
+        InputTextModule,
+        FormsModule,
+        AutoCompleteModule,
+        BrowserAnimationsModule,
+        ButtonModule,
+        MenubarModule,
+        ClipboardModule,
+        FocusTrapModule,
+        CheckboxModule,
+        DropdownModule,
+        MonacoEditorModule.forRoot(monacoConfig),
+        MainViewComponent,
+        FormulaEditorComponent,
+        FormulaEditorResultTableComponent,
+        FormulaEditorCreateNewComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
