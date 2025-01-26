@@ -216,7 +216,7 @@ declare class GcService {
 
 
   interface String {
-    bww(): number[];
+//    bww(): number[];
     bwwZtoA(): number[];
     sum(): number;
     iqs(): number;

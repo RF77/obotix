@@ -142,47 +142,23 @@ export class CalculateResultService implements CalcContent {
   }
 
   calculateResult(model: FormulaEditorModel): string | null {
-    // let currentResult: FormulaEditorRowResult[] = [];
     let error: string | null = null;
-    model.result.result = [];
+    let evalText = "";
+    try {
+      model.result.result = [];
 
-    // model.result.result = this.beispiel(model);
-    const vars = new Map<string, any>();
-    const internalResult: FormulaEditorRowResult[] = [];
-    const gc = this.gcService;
-    gc.vars = vars;
-    const evalText = this.getEvalText(model)
-    model.result.result = eval(evalText);
-
-    return error;
-
-    model.configuration.rows.forEach(row => {
-      try {
-        // model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue("1", "2")], "3"));
-        model.result.result.push(new FormulaEditorRowResult([new FormulaEditorVarValue(row?.name ?? "", eval(row.content ?? ""))], eval(row.content ?? "")));
-        // if (error) {
-        //   return;
-        // }
-        // row.result = [];
-        // if (currentResult.length === 0) {
-        //   const result = this.calcContent([], row.content);
-        //   // console.info("Result is ", result);
-        //   this.setRowResult(result, row, [], 0);
-        // } else {
-        //   currentResult.forEach(res => {
-        //     const result = this.calcContent(res.vars, row.content);
-        //     this.setRowResult(result, row, res.vars, 0);
-        //   });
-        // }
-        // currentResult = row.result;
-        // // console.debug("current result", currentResult);
-      } catch (e) {
-        let message = 'Unknown Error'
-        if (e instanceof Error) message = e.message;
-        console.warn(e);
-        error = `${row.name} = ${row.content} => ${message}`;
-      }
-    });
+      const vars = new Map<string, any>();
+      const internalResult: FormulaEditorRowResult[] = [];
+      const gc = this.gcService;
+      gc.vars = vars;
+      evalText = this.getEvalText(model)
+      model.result.result = eval(evalText);
+    } catch (e) {
+      let message = 'Unknown Error'
+      if (e instanceof Error) message = e.message;
+      console.warn(e);
+      error = `${evalText} => ${message}`;
+    }
     return error;
   }
 
