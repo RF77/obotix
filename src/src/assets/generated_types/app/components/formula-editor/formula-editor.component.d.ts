@@ -1,11 +1,8 @@
 import { OnInit } from '@angular/core';
 import { FormulaEditorRowModel } from './models/FormulaEditorRowModel';
 import { FormulaEditorModel } from './models/FormulaEditorModel';
-import { CalculateResultService } from './services/calculate-result.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { SaveToStorage } from './SaveToStorage';
-import { GcService } from '../../services/gc.service';
 export declare class FormulaEditorComponent implements OnInit, SaveToStorage {
     private calculateResultService;
     private activatedRoute;
@@ -35,7 +32,6 @@ export declare class FormulaEditorComponent implements OnInit, SaveToStorage {
         };
         fixedOverflowWidgets: boolean;
     };
-    constructor(calculateResultService: CalculateResultService, activatedRoute: ActivatedRoute, router: Router, gcService: GcService);
     getRowHeight(row: FormulaEditorRowModel): string;
     ngOnInit(): void;
     initMenu(): void;
@@ -44,7 +40,6 @@ export declare class FormulaEditorComponent implements OnInit, SaveToStorage {
     loadFromStorage(): void;
     saveToStorage(): void;
     calculateResult(): void;
-    getResultFromRow(row: FormulaEditorRowModel, full: boolean): any[];
     isLastRow(row: FormulaEditorRowModel): boolean;
     addRow(): void;
     deleteRow(row: FormulaEditorRowModel): void;

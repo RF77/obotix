@@ -1,9 +1,4 @@
-import { BuchstabenwortwertConverterService } from '../converter/buchstabenwortwert-converter.service';
-import FormulaEditorVarValue from '../components/formula-editor/models/FormulaEditorVarValue';
-import { CalcContent } from '../components/formula-editor/services/CalcContent';
 import { GcCoordinate } from '../converter/GcCoordinate';
-import { CoordinateConverterService } from '../converter/coordinate-converter.service';
-import { TrigonometryService } from './trigonometry.service';
 import { CoordinateService } from './coordinate.service';
 /**
  * Dieser Service enthält alle verfügbaren Funktionen
@@ -12,15 +7,14 @@ export declare class GcService {
     private bwwService;
     private coordinateConverterService;
     private trigonometryService;
-    private coordinateService;
+    coordinateService: CoordinateService;
     static instance: GcService;
-    constructor(bwwService: BuchstabenwortwertConverterService, coordinateConverterService: CoordinateConverterService, trigonometryService: TrigonometryService, coordinateService: CoordinateService);
+    constructor();
     /**
      * Wird vom Solver gesetzt und enthält die aktuellen Variablenwerte
      * Soweit nicht angedacht, um im Solver von Hand zu benutzen
      */
-    vars: FormulaEditorVarValue[];
-    calcInterface: CalcContent | undefined;
+    vars: Map<string, any>;
     /**
      * Berechne die Buchstabenwerte eines Textes, A=1, Z=26, Ä=27...
      * @param text Text, der in einen Buchstabenwert umgewandelt werden soll
@@ -152,7 +146,18 @@ export declare class GcService {
      * @param azimuth Winkel von 0 bis 360 Grad in Uhrzeigersinn von Norden aus
      * @returns Endpunkt als Koordinate
      */
-    peile(coord: GcCoordinate, distance: number, azimuth: number): GcCoordinate;
+    peile(coord: GcCoordinate | string, distance: number, azimuth: number): GcCoordinate;
+    /**
+   * Mache eine Peilung rückwärts.
+   * @param targetCoordinate Zielpunkt
+   * @param distance Distanz in Meter
+   * @param initialAzimuth Anfangswinkel von 0 bis 360 Grad in Uhrzeigersinn von Norden aus vom noch unklaren Ursprungspunkt
+   * @returns Anfangspunkt als Koordinate
+   */
+    peileRückwärts(targetCoordinate: GcCoordinate | string, distance: number, initialAzimuth: number): GcCoordinate;
+    peile2(coord: GcCoordinate | string, distance: number, azimuth: number): GcCoordinate;
     toSwissGrid(coordinate: GcCoordinate): string;
+    distanceTo(source: GcCoordinate | string, target: GcCoordinate | string): number;
+    c(): CoordinateService;
 }
 //# sourceMappingURL=gc.service.d.ts.map

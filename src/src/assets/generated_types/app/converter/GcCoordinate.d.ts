@@ -33,6 +33,15 @@ export declare class GcCoordinate {
      * @returns Endpunkt als Koordinate
      */
     peile(distance: number, azimuth: number): GcCoordinate;
+    /**
+    * Mache eine Peilung rückwärts, dass heisst die vorgegebene Kordinate entspricht dem Endpunkt.
+    * @param distance Distanz in Meter
+    * @param initialAzimuth Anfangswinkel von 0 bis 360 Grad in Uhrzeigersinn von Norden aus vom noch unklaren Ursprungspunkt
+    * @returns Anfangspunkt als Koordinate
+    */
+    peileRückwärts(distance: number, initialAzimuth: number): GcCoordinate;
+    distanceTo(target: GcCoordinate | string): number;
+    peile2(distance: number, azimuth: number): GcCoordinate;
     toSwissGrid(): string;
     toString(): string;
 }

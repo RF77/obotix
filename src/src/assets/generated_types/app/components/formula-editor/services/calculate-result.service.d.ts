@@ -1,8 +1,9 @@
 import { FormulaEditorModel } from '../models/FormulaEditorModel';
-import FormulaEditorVarValue from '../models/FormulaEditorVarValue';
-import { GcService } from '../../../services/gc.service';
+import { FormulaEditorRowResult } from '../models/FormulaEditorRowResult';
+import { FormulaEditorRowModel } from '../models/FormulaEditorRowModel';
 import { CalcContent } from './CalcContent';
 import { GcCoordinate } from '../../../converter/GcCoordinate';
+import "./ExtensionMethods";
 declare global {
     interface String {
         bww(): number[];
@@ -32,6 +33,7 @@ declare global {
         * @returns Anfangspunkt als Koordinate
         */
         peileRückwärts(distance: number, initialAzimuth: number): GcCoordinate;
+        peile2(distance: number, azimuth: number): GcCoordinate;
     }
     interface Number {
         sum(): number;
@@ -56,10 +58,12 @@ declare global {
 }
 export declare class CalculateResultService implements CalcContent {
     private gcService;
-    constructor(gcService: GcService);
+    constructor();
     calculateResult(model: FormulaEditorModel): string | null;
-    private setRowResult;
-    calcContent(vars: FormulaEditorVarValue[], content?: string): any;
+    beispiel(model: FormulaEditorModel): FormulaEditorRowResult[];
+    getEvalText(model: FormulaEditorModel): string;
+    getTextForLastVal(val: FormulaEditorRowModel): string;
+    getTextForVal(val: FormulaEditorRowModel): string;
     private getEvalVars;
 }
 //# sourceMappingURL=calculate-result.service.d.ts.map
