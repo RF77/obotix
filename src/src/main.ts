@@ -16,7 +16,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor-v2';
 import { AppComponent } from './app/app.component';
-import { importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import { importProvidersFrom, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
@@ -275,7 +275,7 @@ const monaco = (<any>window).monaco;
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(),
+    provideZoneChangeDetection(),provideHttpClient(),
     importProvidersFrom(HttpClient, BrowserModule, AppRoutingModule, TableModule, InputTextModule, FormsModule, AutoCompleteModule, ButtonModule, MenubarModule, ClipboardModule, FocusTrapModule, CheckboxModule, DropdownModule, MonacoEditorModule.forRoot(monacoConfig)),
     provideAppInitializer(() => intializeApp(inject(HttpClient))),
     provideAnimations(),
