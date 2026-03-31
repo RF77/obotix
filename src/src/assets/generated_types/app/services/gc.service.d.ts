@@ -68,6 +68,15 @@ export declare class GcService {
      */
     sumNumber(values: number[]): number;
     /**
+   * Erstellt ein Array, welches mit 'first' beginnt und mit 'lst' endet.
+   * Falls angegeben, wird 'first' jeweils um step erhöht oder per default bei 1
+   * @param first Mit dieser Zahl beginnt der Array
+   * @param last Mit dieser Zahl endet der Array
+   * @param step Mit dieser Zahl wird jeweils inkrementiert. Default ist 1.
+   * @returns Bsp. (2,10,2) => [2,4,6,8,10]
+   */
+    range(first: number, last: number, step?: number): number[];
+    /**
      * Eliminiert doppelte Werte
      * @param values Array mit Werten
      * @returns keine doppelten Werte, Bsp: [1,2,2,3] => [1,2,3]
@@ -107,7 +116,7 @@ export declare class GcService {
      * @param b Bedingung
      * @returns Wert, falls Bedingung erfüllt oder keinen Wert
      */
-    when(value: any, b: (v: any) => boolean): any[];
+    if(value: any, b: (v: any) => boolean): any[];
     /**
    * Berechnet die Höhe in einem rechtwinkligen Dreieck
    * tan(alpha) = a / b => a = tan(alpha) * b

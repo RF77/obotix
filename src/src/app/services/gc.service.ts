@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { BuchstabenwortwertConverterService } from '../converter/buchstabenwortwert-converter.service';
-import FormulaEditorVarValue from '../components/formula-editor/models/FormulaEditorVarValue';
-import { CalcContent } from '../components/formula-editor/services/CalcContent';
 import { GcCoordinate } from '../converter/GcCoordinate';
 import { CoordinateConverterService } from '../converter/coordinate-converter.service';
 import { BaseConverter } from '@nodecfdi/base-converter';
 import { TrigonometryService } from './trigonometry.service';
 import { CoordinateService } from './coordinate.service';
+import _ from 'lodash';
 
 /**
  * Dieser Service enthält alle verfügbaren Funktionen
@@ -162,6 +161,18 @@ export class GcService {
   }
 
   /**
+ * Erstellt ein Array, welches mit 'first' beginnt und mit 'lst' endet.
+ * Falls angegeben, wird 'first' jeweils um step erhöht oder per default bei 1
+ * @param first Mit dieser Zahl beginnt der Array
+ * @param last Mit dieser Zahl endet der Array
+ * @param step Mit dieser Zahl wird jeweils inkrementiert. Default ist 1.
+ * @returns Bsp. (2,10,2) => [2,4,6,8,10]
+ */
+  public range(first: number, last: number, step: number = 1): number[] {
+    return _.range(first, last, step);
+  }
+
+  /**
    * Eliminiert doppelte Werte
    * @param values Array mit Werten
    * @returns keine doppelten Werte, Bsp: [1,2,2,3] => [1,2,3]
@@ -250,7 +261,7 @@ export class GcService {
    * @param b Bedingung
    * @returns Wert, falls Bedingung erfüllt oder keinen Wert
    */
-  public when(value: any, b: (v: any) => boolean): any[] {
+  public if(value: any, b: (v: any) => boolean): any[] {
     return b(value) ? value : [];
   }
 
