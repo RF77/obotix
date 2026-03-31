@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Point, bearingToAzimuth, destination, rhumbDestination } from '@turf/turf';
+import { bearingToAzimuth, destination, rhumbDestination } from '@turf/turf';
+import type { Point } from 'geojson';
 import * as geolib from 'geolib';
 import { GcCoordinate } from '../converter/GcCoordinate';
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty.js';
@@ -102,7 +103,7 @@ export class CoordinateService {
   }
 
   // /**
-  //  * 
+  //  *
   //  * @param azimuth Winkel in Uhrzeiger beginnend von Norden her
   //  * @returns beaing von N
   //  */

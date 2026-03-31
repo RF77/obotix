@@ -9,7 +9,6 @@ import { GcService } from '../../services/gc.service';
 import { Menubar } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { FocusTrap } from 'primeng/focustrap';
-import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { NgStyle } from '@angular/common';
@@ -21,7 +20,7 @@ import { FormulaEditorResultTableComponent } from "../formula-editor-result-tabl
   selector: 'app-formula-editor',
   templateUrl: './formula-editor.component.html',
   styleUrl: './formula-editor.component.sass',
-  imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, DropdownModule, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent]
+  imports: [Menubar, TableModule, FocusTrap, PrimeTemplate, FormsModule, InputText, NgStyle, EditorComponent, Button, FormulaEditorResultTableComponent]
 })
 export class FormulaEditorComponent implements OnInit, SaveToStorage {
   private calculateResultService = inject(CalculateResultService);

@@ -13,7 +13,6 @@ import { MenubarModule } from 'primeng/menubar';
 import { ClipboardModule } from 'ngx-clipboard';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { CheckboxModule } from 'primeng/checkbox';
-import { DropdownModule } from 'primeng/dropdown';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor-v2';
 import { AppComponent } from './app/app.component';
 import { importProvidersFrom, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
@@ -276,7 +275,7 @@ const monaco = (<any>window).monaco;
 bootstrapApplication(AppComponent, {
   providers: [
     provideZoneChangeDetection(),provideHttpClient(),
-    importProvidersFrom(HttpClient, BrowserModule, AppRoutingModule, TableModule, InputTextModule, FormsModule, AutoCompleteModule, ButtonModule, MenubarModule, ClipboardModule, FocusTrapModule, CheckboxModule, DropdownModule, MonacoEditorModule.forRoot(monacoConfig)),
+    importProvidersFrom(HttpClient, BrowserModule, AppRoutingModule, TableModule, InputTextModule, FormsModule, AutoCompleteModule, ButtonModule, MenubarModule, ClipboardModule, FocusTrapModule, CheckboxModule, MonacoEditorModule.forRoot(monacoConfig)),
     provideAppInitializer(() => intializeApp(inject(HttpClient))),
     provideAnimations(),
     provideAnimationsAsync(),

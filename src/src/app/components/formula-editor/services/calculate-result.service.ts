@@ -61,7 +61,7 @@ export class CalculateResultService implements CalcContent {
       const gc = this.gcService;
       gc.vars = vars;
       evalText = this.getEvalText(model)
-      model.result.result = eval(evalText);
+      model.result.result = indirectEval(evalText);
     } catch (e) {
       let message = 'Unknown Error'
       if (e instanceof Error) message = e.message;
